@@ -1,0 +1,99 @@
+:root{
+    --ss-dark-color: #212121;
+    --ss-light-color: #ebebeb;
+
+    --ss-heading-font: 'Bebas Neue', sans-serif;
+    --ss-subtitle-font: 'Fira Sans', sans-serif;
+    --ss-heading-font: 'Bebas Neue', sans-serif;
+    --ss-body-font: 'Roboto', sans-serif;
+}
+
+/* #region main template */
+
+
+body, html{
+    height: 100%
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+main{
+    flex: 1 0 auto;
+}
+
+footer{
+    flex-shrink: o;
+}
+
+/* #endregion main template */
+
+/* #region Element Overrides */
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+    font-family: var(--ss-heading-font);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ss-title-color);
+    letter-spacing: .1rem;
+}
+
+a {
+    color: var(--cf-theme-500);
+}
+
+a:hover{
+    color: var(--cf-theme-400);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--cf-theme-600);
+    --bs-btn-border-color: var(--cf-theme-600);
+    --bs-btn-hover-bg: var(--cf-theme-700);
+    --bs-btn-hover-border-color: var(--cf-theme-700);
+}
+/* #endregion Element overrides*/
+
+body{
+    color: var(--ss-dark-color);
+    background: #ECE9E6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+nav{
+    background-color: var(--cf-theme-900);
+}
+
+.appLogo{
+
+    max-width: 400px;
+}
+
+.mainTitle{
+    font-size: 2rem;
+}
+
+.subTitle{
+    font-size: 1.2rem;
+}
+
+.techStack{
+    font-size: 2rem;
+}
+
+footer {
+    color: var(--ss-light-color);
+    background-color: var(--cf-theme-900);
+}
+
+footer i{
+    font-size: 2rem;
+}
+
+footer i:hover{
+    color: var(--cf-theme-200);
+}
+
