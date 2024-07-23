@@ -47,6 +47,26 @@ async function getNowPlayingMovies(){
 
 
 }
+async function getMoviesByQuery(query){
+    
+    const searchMoviesUrl = `https://api.themoviedb.org/3/search/movie?query=${query}`;
+    
+    try{
+        let response = await fetch(searchMoviesUrl,{
+            headers:{
+                'Authorization': `Bearer ${apiKey}`
+            }
+        });
+
+        if(!response.ok) throw new Error("Network response was not ok.");
+
+        let foundMovies = await response.json();
+        return foundMovies.results;
+    } catch (error){
+        console.error(`Get Movies Fetch Error:  ${error}`);
+        return [];
+    }
+}
 
 /**
  * 
@@ -56,7 +76,6 @@ async function getNowPlayingMovies(){
 async function getMovie(movieId){
     
     const movieUrl = `https://api.themoviedb.org/3/movie/${movieId}`;
-
     
     try{
         let response = await fetch(movieUrl,{
@@ -72,5 +91,34 @@ async function getMovie(movieId){
     } catch (error){
         console.error(`Get Movies Fetch Error:  ${error}`);
         return null;
+    }
+}
+
+async function getMovieRating(movieId){
+      const movieUrl = `https://api.themoviedb.org/3/movie/${movieId}/release_dates`;
+    
+    try{
+        let response = await fetch(movieUrl,{
+            headers:{
+                'Authorization': `Bearer ${apiKey}`
+            }
+        });
+
+        if(!response.ok) throw new Error("Network response was not ok.");
+
+        let releaseDates = await response.json();
+
+        let usReleaseDates = releaseDates.results.find( rd => rd.iso_3166_1 == 'US');
+
+        if(!usReleaseDates) return "NR";
+
+        let releaseDate = usReleaseDates.release_dates.find( rd => rd.certification != '');
+
+        //(?) Ternary operator 
+        return releaseDate ? releaseDate.certification : "NR";
+
+    } catch (error){
+        console.error(`Get Movies Fetch Error:  ${error}`);
+        return "NR";
     }
 }
