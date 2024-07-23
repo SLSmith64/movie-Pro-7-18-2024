@@ -87,6 +87,27 @@ async function displayMovieDetails(){
     let minutes = movie.runtime % 60;
     let hours = (movie.runtime - minutes) / 60;
     document.getElementById('movie-runtime').textContent = `${hours}h ${minutes}m`;
+
+    //Display the movie genres
+    document.getElementById('movie-genres').innerHTML = displayGenres(movie);
+
+    //Display the Overview Description
+    document.getElementById('movie-overview').innerText = movie.overview;
+
+    //Display the Movie Tag Line.
+    document.getElementById('movie-tagline').innerHTML = movie.tagline;
+
+    //Display the user rating.
+    document.getElementById('movie-rating').innerHTML = `${(movie.vote_average * 10).toFixed(0)} % User Score`;
+
+    //Load the trailer
+     let videos = await getMovieVideos(movieId);
+     if(videos.length < 1){
+        document.getElementById('btn-trailer').style.display = 'none';
+     }
+     else{
+        document.getElementById('btn-trailer').style.display = 'block';
+     };
 }
 
 function displayMovies(movies){
@@ -140,6 +161,16 @@ function displayMovies(movies){
     });
 }
 
+//Display the Movie Genres
+function displayGenres(movie){
+    let genresTemplate = '';    
+
+    movie.genres.forEach(genre => {
+        genresTemplate += `<span class="badge text-bg-info">${genre.name}</span>`;
+    });
+
+    return genresTemplate;
+}
 //Uncheck all the buttons in the button bar
 function uncheckButtons(){
     let buttons = document.querySelectorAll('#btnBar .btn-check');
@@ -226,3 +257,24 @@ function selectAndClickMovieCategory(){
     }
 }
 /* #endregion favorite movies */
+
+//Load Trailer
+async function loadVideo(){
+    let movieId = new URLSearchParams(window.location.search);
+    const defaultMovieId = '348350';
+    movieId = movieId.get("id") || defaultMovieId;
+
+    let videos = await getMovieVideos(movieId);
+
+    if (videos.length > 0) {
+        let defaultVideo = videos[0];
+        videos = videos.filter(video => video.type == 'Trailer');
+        let trailerVideo = videos[0] || defaultVideo;
+        document.getElementById('movieModalLabel').textContent = trailerVideo.name;
+        document.getElementById('movie-trailer').src = `https://www.youtube.com/embed/${trailerVideo.key}`;
+    }
+}
+
+async function unloadVideo(){
+    document.getElementById('movie-trailer').src = '';
+}
