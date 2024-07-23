@@ -130,4 +130,14 @@ footer i:hover{
         color: white;
     }
 
+    .actorName{
+        font-size: .9rem;
+    }
+
+    .characterCard{
+        border-top: 1px solid var(--cf-theme-900);
+        background-color: rgba(0,0,0, .1);
+        min-height: 5rem;
+    }
+
 /* #endregion styles for movieDetails.html */

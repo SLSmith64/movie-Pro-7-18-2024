@@ -108,6 +108,9 @@ async function displayMovieDetails(){
      else{
         document.getElementById('btn-trailer').style.display = 'block';
      };
+
+     //Display the actors for the movies.
+     displayCredits(movieId);
 }
 
 function displayMovies(movies){
@@ -170,6 +173,33 @@ function displayGenres(movie){
     });
 
     return genresTemplate;
+}
+
+async function displayCredits(movieId){
+    //get the cast from the TMDB api.
+    let credits = await getMovieCredits(movieId);
+    //pul the top ten actors for the movie.
+    let topBilledCast = credits.cast.slice(0,10);
+
+    let slideContainer = document.getElementById('actors-slide-container');
+    slideContainer.innerHTML = '';
+
+    let actorSlideTemplate = document.getElementById('actor-slide');
+
+    topBilledCast.forEach(actor => {
+        let slide = actorSlideTemplate.content.cloneNode(true);
+
+        if(actor.profile_path != null){
+            slide.querySelector('img').src = `https://image.tmdb.org/t/p/w185${actor.profile_path}`;
+        }else{
+            slide.querySelector('img').src = '/img/profileImage.jpg';
+        }
+
+        slide.querySelector('[data-name]').textContent = actor.name;
+        slide.querySelector('[data-character]').textContent = actor.character;
+
+        slideContainer.appendChild(slide);
+    })
 }
 //Uncheck all the buttons in the button bar
 function uncheckButtons(){

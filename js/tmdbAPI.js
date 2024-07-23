@@ -143,3 +143,31 @@ async function getMovieVideos(movieId){
         return null;
     }
 }
+
+/**
+ * 
+ * @param {*} movieId 
+ * @returns cast and crew for a movie
+ */
+async function getMovieCredits(movieId){
+    
+//https://api.themoviedb.org/3/movie/{movie_id}/credits
+
+ const creditsUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits`;
+    
+    try {
+        let response = await fetch(creditsUrl,{
+            headers:{
+                'Authorization': `Bearer ${apiKey}`
+            }
+        });
+
+        if(!response.ok) throw new Error("Network response was not ok.");
+
+        let credits = await response.json();
+        return credits;
+    } catch (error){
+        console.error(`Get Movies Fetch Error:  ${error}`);
+        return [];
+    }
+}
